@@ -145,14 +145,9 @@
       margin-top: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      align-items: center;
+      gap: 0.75rem;
       padding-bottom: 1rem;
-    }
-
-    .sidebar-actions .download-btn {
-      text-align: center;
-      justify-content: center;
-      width: 100%;
     }
 
     /* ===== About Button ===== */
@@ -170,6 +165,7 @@
       text-decoration: none;
       cursor: pointer;
       transition: all 0.2s ease;
+      margin-bottom: 0.25rem;
     }
 
     .about-btn:hover {
@@ -187,27 +183,37 @@
       color: #2d2927;
     }
 
+    /* ===== Icon Button Row ===== */
+    .icon-btn-row {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
     /* ===== Share Button & Popup ===== */
     .share-wrapper {
       position: relative;
     }
 
     .share-btn {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      width: 100%;
-      padding: 0.6rem 1.4rem;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      color: var(--body-text);
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      color: var(--secondary);
       background: transparent;
       border: 2px solid var(--secondary);
-      border-radius: 4px;
+      border-radius: 50%;
       text-decoration: none;
       cursor: pointer;
       transition: all 0.2s ease;
+    }
+
+    .share-btn svg {
+      width: 15px;
+      height: 15px;
     }
 
     .share-btn:hover {
@@ -217,7 +223,7 @@
 
     [data-theme="dark"] .share-btn {
       border-color: var(--quaternary);
-      color: var(--body-text);
+      color: var(--quaternary);
     }
 
     [data-theme="dark"] .share-btn:hover {
@@ -229,8 +235,9 @@
       display: none;
       position: absolute;
       bottom: calc(100% + 0.5rem);
-      left: 0;
-      right: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
       background-color: var(--page-bg);
       border: 1px solid var(--dark-bg);
       border-radius: 6px;
@@ -319,16 +326,30 @@
       padding: 0.15rem 0;
     }
 
-    .toc-list a:hover,
-    .toc-list a.active {
+    .toc-list a:hover {
       color: var(--body-text);
+    }
+
+    .toc-list a.active {
+      color: var(--secondary);
+      font-weight: 600;
     }
 
     .toc-list .toc-major {
       font-family: var(--font-headline);
       font-size: 0.95rem;
-      color: var(--body-text);
+      color: var(--light-text);
       margin-top: 0.5rem;
+      transition: color 0.2s ease, font-weight 0.2s ease;
+    }
+
+    .toc-list .toc-major:hover {
+      color: var(--body-text);
+    }
+
+    .toc-list .toc-major.active {
+      color: var(--secondary);
+      font-weight: 600;
     }
 
     .toc-list .toc-major:first-child {
@@ -592,33 +613,50 @@
 
     /* ===== Download Button ===== */
     .download-btn {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-top: 1.25rem;
-      padding: 0.6rem 1.4rem;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      padding: 0;
       color: var(--page-bg);
       background-color: var(--secondary);
-      border: none;
-      border-radius: 4px;
+      border: 2px solid var(--secondary);
+      border-radius: 50%;
       text-decoration: none;
       cursor: pointer;
-      transition: background-color 0.2s ease;
+      transition: all 0.2s ease;
+    }
+
+    .download-btn svg {
+      width: 15px;
+      height: 15px;
     }
 
     .download-btn:hover {
       background-color: var(--tertiary);
+      border-color: var(--tertiary);
+      color: var(--page-bg);
     }
 
     [data-theme="dark"] .download-btn {
       color: #2d2927;
       background-color: var(--quaternary);
+      border-color: var(--quaternary);
     }
 
     [data-theme="dark"] .download-btn:hover {
       background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* ===== Footer ===== */
+    .site-footer {
+      text-align: center;
+      padding: 3rem 0 2rem;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--light-text);
     }
 
     /* ===== PDF / Print Mode ===== */
@@ -630,7 +668,8 @@
     body.print-mode .sidebar,
     body.print-mode .sidebar-overlay,
     body.print-mode .progress-bar,
-    body.print-mode .menu-toggle {
+    body.print-mode .menu-toggle,
+    body.print-mode .site-footer {
       display: none !important;
     }
 
@@ -961,39 +1000,39 @@
       </nav>
       <div class="sidebar-actions">
         <a href="https://mereorthodoxy.com/about" class="about-btn">About<br>Mere Orthodoxy</a>
-        <div class="share-wrapper">
-          <div class="share-popup" id="sharePopup">
-            <button class="share-option" id="copyLink">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-              Copy link
+        <div class="icon-btn-row">
+          <div class="share-wrapper">
+            <div class="share-popup" id="sharePopup">
+              <button class="share-option" id="copyLink">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                Copy link
+              </button>
+              <div class="share-copied" id="copiedMsg">Link copied!</div>
+              <a class="share-option" id="shareSMS" href="#" target="_blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Text message
+              </a>
+              <a class="share-option" id="shareX" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                Share on X
+              </a>
+              <a class="share-option" id="shareFB" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                Share on Facebook
+              </a>
+              <a class="share-option" id="shareIG" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                Instagram Stories
+              </a>
+            </div>
+            <button class="share-btn" id="shareToggle" title="Share">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
             </button>
-            <div class="share-copied" id="copiedMsg">Link copied!</div>
-            <a class="share-option" id="shareSMS" href="#" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              Text message
-            </a>
-            <a class="share-option" id="shareX" href="#" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              Share on X
-            </a>
-            <a class="share-option" id="shareFB" href="#" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              Share on Facebook
-            </a>
-            <a class="share-option" id="shareIG" href="#" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              Instagram Stories
-            </a>
           </div>
-          <button class="share-btn" id="shareToggle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-            Share
-          </button>
+          <a href="/api/pdf" class="download-btn" title="Download PDF">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9m0 0L4.5 7.5M8 11l3.5-3.5M2 13h12"/></svg>
+          </a>
         </div>
-        <a href="/api/pdf" class="download-btn">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9m0 0L4.5 7.5M8 11l3.5-3.5M2 13h12"/></svg>
-          Download PDF
-        </a>
       </div>
     </aside>
 
@@ -1004,7 +1043,6 @@
         <div class="hero">
           <h1 class="hero-title">Blueprint for<br>Renewal</h1>
           <p class="hero-subtitle">Protestant Catholicity and Solidarity Conservatism</p>
-          <p class="hero-date">2025</p>
         </div>
 
         <!-- Article Content -->
@@ -1169,6 +1207,10 @@
             <p>The goal of solidarity conservatism, then, is not the creation of utopia, but the cultivation of civic society in which it is easier to be good, in which the commands of God are heard and obeyed, and the nature of the human person is understood, received, and honored.</p>
           </section>
         </article>
+
+        <footer class="site-footer">
+          <p>&copy; 2026 Mere Orthodoxy</p>
+        </footer>
       </div>
     </main>
   </div>
@@ -1223,11 +1265,14 @@
     });
 
     // Active TOC highlighting
-    const sections = document.querySelectorAll('[id]');
+    const tocTargetIds = new Set(
+      Array.from(document.querySelectorAll('.toc-list a')).map(a => a.getAttribute('href').replace('#', ''))
+    );
+    const tocSections = Array.from(document.querySelectorAll('[id]')).filter(el => tocTargetIds.has(el.id));
     const tocLinks = document.querySelectorAll('.toc-list a');
 
     const observerOptions = {
-      rootMargin: '-20% 0px -70% 0px',
+      rootMargin: '-10% 0px -80% 0px',
       threshold: 0
     };
 
@@ -1245,10 +1290,8 @@
       });
     }, observerOptions);
 
-    sections.forEach(section => {
-      if (section.getAttribute('id')) {
-        observer.observe(section);
-      }
+    tocSections.forEach(section => {
+      observer.observe(section);
     });
 
     // Share functionality
