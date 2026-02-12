@@ -155,6 +155,38 @@
       width: 100%;
     }
 
+    /* ===== About Button ===== */
+    .about-btn {
+      display: block;
+      text-align: center;
+      width: 100%;
+      padding: 0.6rem 1.4rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--body-text);
+      background: transparent;
+      border: 2px solid var(--secondary);
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .about-btn:hover {
+      background-color: var(--secondary);
+      color: var(--page-bg);
+    }
+
+    [data-theme="dark"] .about-btn {
+      border-color: var(--quaternary);
+      color: var(--body-text);
+    }
+
+    [data-theme="dark"] .about-btn:hover {
+      background-color: var(--quaternary);
+      color: #2d2927;
+    }
+
     /* ===== Share Button & Popup ===== */
     .share-wrapper {
       position: relative;
@@ -591,6 +623,7 @@
 
     /* ===== PDF / Print Mode ===== */
     body.print-mode .download-btn,
+    body.print-mode .about-btn,
     body.print-mode .share-wrapper,
     body.print-mode .sidebar-actions,
     body.print-mode .top-bar,
@@ -900,7 +933,7 @@
         <span></span>
         <span></span>
       </button>
-      <a href="#" class="org-name">Mere Orthodoxy</a>
+      <a href="https://mereorthodoxy.com" class="org-name">Mere Orthodoxy</a>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
   </header>
@@ -927,6 +960,7 @@
         </ul>
       </nav>
       <div class="sidebar-actions">
+        <a href="https://mereorthodoxy.com/about" class="about-btn">About Mere Orthodoxy</a>
         <div class="share-wrapper">
           <div class="share-popup" id="sharePopup">
             <button class="share-option" id="copyLink">
