@@ -1,0 +1,11 @@
+{
+  "name": "blueprint-for-renewal",
+  "version": "1.0.0",
+  "description": "Blueprint for Renewal - Protestant Catholicity and Solidarity Conservatism",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
