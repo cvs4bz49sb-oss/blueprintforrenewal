@@ -133,6 +133,20 @@
       padding: 5.5rem 2rem 2rem 2.5rem;
       overflow-y: auto;
       z-index: 10;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar nav {
+      flex: 1;
+    }
+
+    .sidebar .download-btn {
+      margin-top: auto;
+      margin-bottom: 1rem;
+      text-align: center;
+      justify-content: center;
+      width: 100%;
     }
 
     .toc-title {
@@ -476,6 +490,14 @@
       display: none !important;
     }
 
+    body.print-mode {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 12pt !important;
+      line-height: 1.6 !important;
+    }
+
     body.print-mode .main-content {
       margin-left: 0;
       padding: 0;
@@ -484,6 +506,125 @@
 
     body.print-mode .content-container {
       max-width: 100%;
+    }
+
+    /* Title page: centered, standalone */
+    body.print-mode .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100vh;
+      page-break-after: always;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    body.print-mode .hero-title {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 28pt !important;
+      line-height: 1.2 !important;
+      color: #000000 !important;
+      margin-bottom: 0.5rem;
+    }
+
+    body.print-mode .hero-subtitle {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 14pt !important;
+      font-style: italic;
+      color: #000000 !important;
+      margin-bottom: 2rem;
+    }
+
+    body.print-mode .hero-date {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 12pt !important;
+      color: #333333 !important;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Add "Mere Orthodoxy" to title page via pseudo-element */
+    body.print-mode .hero::before {
+      content: "Mere Orthodoxy";
+      font-family: 'Times New Roman', 'Times', serif;
+      font-size: 14pt;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #333333;
+      margin-bottom: 3rem;
+    }
+
+    /* Chapter headings: start on new page */
+    body.print-mode .content-section {
+      page-break-before: always;
+      margin-bottom: 0;
+    }
+
+    body.print-mode .section-title {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 22pt !important;
+      color: #000000 !important;
+      border-top: 1px solid #000000;
+      border-bottom: none;
+      padding-top: 1.5rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+    }
+
+    body.print-mode .section-label {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 11pt !important;
+      color: #333333 !important;
+      margin-top: 0;
+    }
+
+    body.print-mode .section-heading {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 16pt !important;
+      color: #000000 !important;
+      margin-top: 2rem;
+    }
+
+    body.print-mode .subsection-heading {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 13pt !important;
+      font-style: italic;
+      color: #000000 !important;
+    }
+
+    body.print-mode .essay-heading {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 13pt !important;
+      color: #000000 !important;
+    }
+
+    body.print-mode p {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 12pt !important;
+      color: #000000 !important;
+      line-height: 1.6 !important;
+    }
+
+    body.print-mode blockquote {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 11pt !important;
+      color: #000000 !important;
+      border-left-color: #999999;
+    }
+
+    body.print-mode .barna-list li {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 11pt !important;
+      color: #000000 !important;
+    }
+
+    body.print-mode .callout {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 12pt !important;
+      color: #000000 !important;
+      border-top-color: #000000;
+      border-bottom-color: #000000;
     }
 
     /* ===== Scroll Progress ===== */
@@ -537,6 +678,10 @@
           <li><a href="#how-politics-work-best" class="toc-sub">How Politics Work Best</a></li>
         </ul>
       </nav>
+      <a href="/api/pdf" class="download-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9m0 0L4.5 7.5M8 11l3.5-3.5M2 13h12"/></svg>
+        Download PDF
+      </a>
     </aside>
 
     <!-- Main Content -->
@@ -547,10 +692,6 @@
           <h1 class="hero-title">Blueprint for<br>Renewal</h1>
           <p class="hero-subtitle">Protestant Catholicity and Solidarity Conservatism</p>
           <p class="hero-date">2025</p>
-          <a href="/api/pdf" class="download-btn">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9m0 0L4.5 7.5M8 11l3.5-3.5M2 13h12"/></svg>
-            Download PDF
-          </a>
         </div>
 
         <!-- Article Content -->
