@@ -45,7 +45,7 @@
     /* ===== Body ===== */
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 2rem;
+      scroll-padding-top: 5rem;
     }
 
     body {
@@ -135,6 +135,11 @@
       z-index: 10;
       display: flex;
       flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      transform: translateX(-100%);
     }
 
     .sidebar nav {
@@ -444,6 +449,14 @@
       line-height: 1.5;
     }
 
+    .essay-author {
+      font-family: var(--font-headline);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--light-text);
+      margin-bottom: 1.75rem;
+    }
+
     .section-heading {
       font-family: var(--font-headline);
       font-size: 1.5rem;
@@ -519,9 +532,9 @@
       line-height: 1.65;
     }
 
-    /* ===== Mobile Hamburger ===== */
+    /* ===== Hamburger Menu ===== */
     .menu-toggle {
-      display: none;
+      display: block;
       background: none;
       border: none;
       cursor: pointer;
@@ -650,6 +663,46 @@
       border-color: var(--primary);
     }
 
+    /* ===== Contributors ===== */
+    .contributors-section {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--dark-bg);
+    }
+
+    .contributors-section .section-title {
+      margin-bottom: 2rem;
+    }
+
+    .contributor {
+      margin-bottom: 2rem;
+    }
+
+    .contributor-name {
+      font-family: var(--font-headline);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--body-text);
+      margin-bottom: 0.25rem;
+    }
+
+    .contributor-bio {
+      font-size: 0.95rem;
+      color: var(--light-text);
+      line-height: 1.65;
+    }
+
+    .essay-author a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease;
+    }
+
+    .essay-author a:hover {
+      border-bottom-color: var(--light-text);
+    }
+
     /* ===== Footer ===== */
     .site-footer {
       text-align: center;
@@ -668,8 +721,7 @@
     body.print-mode .sidebar,
     body.print-mode .sidebar-overlay,
     body.print-mode .progress-bar,
-    body.print-mode .menu-toggle,
-    body.print-mode .site-footer {
+    body.print-mode .menu-toggle {
       display: none !important;
     }
 
@@ -808,6 +860,40 @@
       color: #000000 !important;
       border-top-color: #000000;
       border-bottom-color: #000000;
+    }
+
+    body.print-mode .contributors-section {
+      page-break-before: always;
+      border-top: none;
+    }
+
+    body.print-mode .contributor-name {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 12pt !important;
+      font-weight: bold;
+      color: #000000 !important;
+    }
+
+    body.print-mode .contributor-bio {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 11pt !important;
+      color: #000000 !important;
+    }
+
+    body.print-mode .site-footer {
+      display: none;
+    }
+
+    body.print-mode .essay-author {
+      font-family: 'Times New Roman', 'Times', serif !important;
+      font-size: 11pt !important;
+      color: #333333 !important;
+    }
+
+    body.print-mode .essay-author a {
+      color: inherit !important;
+      text-decoration: none !important;
+      border-bottom: none !important;
     }
 
     /* ===== Highlight & Share Tooltip ===== */
@@ -986,6 +1072,7 @@
       <nav>
         <h2 class="toc-title">Contents</h2>
         <ul class="toc-list">
+          <li><a href="#top" class="toc-major">Top</a></li>
           <li><a href="#introduction" class="toc-major">Introduction</a></li>
           <li><a href="#act-one" class="toc-sub">Act One</a></li>
           <li><a href="#act-two" class="toc-sub">Act Two</a></li>
@@ -1040,7 +1127,7 @@
     <main class="main-content">
       <div class="content-container">
         <!-- Hero -->
-        <div class="hero">
+        <div id="top" class="hero">
           <h1 class="hero-title">Blueprint for<br>Renewal</h1>
           <p class="hero-subtitle">Protestant Catholicity and Solidarity Conservatism</p>
         </div>
@@ -1231,14 +1318,34 @@
       html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
     });
 
-    // Mobile menu
+    // Sidebar toggle
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
 
+    // Desktop: restore sidebar state
+    if (window.innerWidth > 960) {
+      if (localStorage.getItem('sidebarCollapsed') === 'true') {
+        sidebar.classList.add('collapsed');
+      }
+    }
+
+    // Hamburger handles both mobile and desktop
     menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('open');
+      if (window.innerWidth <= 960) {
+        // Mobile: slide-in overlay
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+      } else {
+        // Desktop: toggle collapsed
+        if (sidebar.classList.contains('collapsed')) {
+          sidebar.classList.remove('collapsed');
+          localStorage.setItem('sidebarCollapsed', 'false');
+        } else {
+          sidebar.classList.add('collapsed');
+          localStorage.setItem('sidebarCollapsed', 'true');
+        }
+      }
     });
 
     overlay.addEventListener('click', () => {
@@ -1265,10 +1372,7 @@
     });
 
     // Active TOC highlighting
-    const tocTargetIds = new Set(
-      Array.from(document.querySelectorAll('.toc-list a')).map(a => a.getAttribute('href').replace('#', ''))
-    );
-    const tocSections = Array.from(document.querySelectorAll('[id]')).filter(el => tocTargetIds.has(el.id));
+    const contentSections = document.querySelectorAll('.content-section');
     const tocLinks = document.querySelectorAll('.toc-list a');
 
     const observerOptions = {
@@ -1290,7 +1394,7 @@
       });
     }, observerOptions);
 
-    tocSections.forEach(section => {
+    contentSections.forEach(section => {
       observer.observe(section);
     });
 
